@@ -1,27 +1,27 @@
 import express from "express";
 const routerProductos = express.Router();
 
-/*----------------------------------------*/
-/* crud -> create | read | update | delete */
-/*----------------------------------------*/
+import controller from "../controllers/productos.controller.js";
 
-//! Get all / one (READ) - request de todos los productos
-routerProductos.get("/:id?", (req, rest) => {
-  rest.send("GET ALL / ONE (READ)");
-});
-//! Post (CREATE) - request para agregar un producto
-routerProductos.post("/", (req, rest) => {
-  rest.send("POST (CREATE)");
-});
+/* ------------------------------------------------ */
+/* CRUD -> CREATE | READ | UPDATE | DELETE          */
+/* ------------------------------------------------ */
 
-//! PUT (UPDATE) - request para actualizar un producto
-routerProductos.put("/:id", (req, rest) => {
-  rest.send("PUT (UPDATE)");
-});
+// ! GET ALL / ONE (READ) - request de todos los productos
+// http://localhost:8080/api/productos/ | GET
 
-//! DELETE (DELETE) - request para eliminar un producto
-routerProductos.delete("/:id", (req, rest) => {
-  rest.send("DELETE (DELETE)");
-});
+routerProductos.get("/:id?", controller.obtenerProductos); // :id? params no obligatorio
+// ! POST (CREATE) - request para agregar un producto
+// http://localhost:8080/api/productos/ | POST
+
+routerProductos.post("/", controller.guardarProducto);
+// ! PUT (UPDATE) - request para actualizar un producto
+// http://localhost:8080/api/productos/id | PUT
+
+routerProductos.put("/:id", controller.actualizarProducto);
+// ! DELETE (DELETE) - request para eliminar un producto
+// http://localhost:8080/api/productos/id | DELETE
+
+routerProductos.delete("/:id", controller.borrarProducto);
 
 export default routerProductos;

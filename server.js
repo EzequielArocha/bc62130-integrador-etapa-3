@@ -2,9 +2,23 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import routerProductos from "./routers/productos.router.js";
+import mongoose from "mongoose";
 const app = express();
 const port = process.env.PORT || 3000;
 const corsConfig = { origin: "http://localhost:222" };
+
+// ! 1. Conexión MongoDB
+
+const conectar = async () => {
+  try {
+    await mongoose.connect(process.env.URI_MLOCAL);
+    console.log("Conexión a Mongo realizada con exito!");
+  } catch (error) {
+    console.log("Error al conectar a MONGODB", error);
+  }
+};
+conectar();
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/api/productos", routerProductos);

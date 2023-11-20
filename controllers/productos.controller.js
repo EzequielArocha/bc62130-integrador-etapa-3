@@ -1,4 +1,11 @@
-const obtenerProductos = (req, rest) => {
+import models from "../models/productos.model.js";
+const obtenerProductos = async (req, rest) => {
+  let id = req.params.id;
+  if (id) {
+  } else {
+    const productos = await models.leerProductos();
+    return rest.status(200).json(productos);
+  }
   rest.send("GET ALL / ONE (READ)");
 };
 const guardarProducto = (req, rest) => {

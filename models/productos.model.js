@@ -8,16 +8,22 @@ const productosSchema = mongoose.Schema({
   marca: String,
   categoria: String,
   detalles: String,
+  foto: String,
   envio: Boolean,
 });
 
-// ! Creamos el Modelo
-
+// ! CREAMOS MODELO
 const ProductosModel = mongoose.model("productos", productosSchema);
-
 //Metodos que nos van a servir de interfaz para interactuar con la DB
 
-const leerProducto = (id) => {};
+const leerProducto = async (id) => {
+  try {
+    const producto = await ProductosModel.findById(id);
+    return producto;
+  } catch (error) {
+    console.log("[leerProducto]: No se pudo leer el producto con el id", error);
+  }
+};
 
 const leerProductos = async () => {
   try {
@@ -27,11 +33,43 @@ const leerProductos = async () => {
     console.log("[leerProductos]: Algo no salió bien...", error);
   }
 };
-const guardarProducto = (productoNuevo) => {};
 
-const modificarProducto = (id, productoAEditar) => {};
+const guardarProducto = async (productoNuevo) => {
+  try {
+    const productoAlmacenado = new ProductosModel(productoNuevo);
+    await productoAlmacenado.save();
+    return productoAlmacenado;
+  } catch (error) {
+    console.log(
+      "ERROR (Guardar Productos), no se pudo guardar en la DB",
+      error
+    );
+  }
+};
 
-const eliminarProducto = (id) => {};
+const modificarProducto = async (id, productoAEditar) => {
+  try {
+    const productoModificado = await ProductosModel.findByIdAndUpdate(
+      id,
+      productoAEditar
+    );
+    return productoModificado;
+  } catch (error) {
+    console.log(
+      "ERROR[modificarProducto]: No se puedo actualizar el producto",
+      error
+    );
+  }
+};
+
+const eliminarProducto = async (id) => {
+  try {
+    const productoBorrado = await ProductosModel.findByIdAndDelete(id);
+    return productoBorrado;
+  } catch (error) {
+    console.log("ERROR al eliminar la película en la DB", error);
+  }
+};
 
 export default {
   leerProducto,

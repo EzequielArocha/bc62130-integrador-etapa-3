@@ -3,6 +3,8 @@ import cors from "cors";
 import "dotenv/config";
 import routerProductos from "./routers/productos.router.js";
 import mongoose from "mongoose";
+import path from "node:path";
+import routerUpload from "./routers/upload.router.js";
 const app = express();
 const port = process.env.PORT || 3000;
 const corsConfig = { origin: "http://localhost:222" };
@@ -18,11 +20,12 @@ const conectar = async () => {
   }
 };
 conectar();
-
+app.use(express.static(path.join("public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/api/productos", routerProductos);
 app.use(cors(corsConfig));
+app.use("/api/productos", routerProductos);
+app.use("/api/upload", routerUpload);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

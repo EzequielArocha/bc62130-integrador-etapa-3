@@ -12,8 +12,8 @@ const port = process.env.PORT || 3000;
 const corsConfig = { origin: process.env.URL_FRONT_CORS };
 
 // ! 1. Conexión MongoDB
-handleConnection(process.env.URI_MLOCAL);
 //handleConnection(process.env.URI_MLOCAL);
+handleConnection(process.env.URI_MREMOTA);
 
 //URI_MREMOTA;
 
